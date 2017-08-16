@@ -9,8 +9,8 @@ namespace Common.Commands
     class RelayCommand<T> : ICommand
     {
         #region fields
-        readonly Action<T> _execute = null;
-        readonly Predicate<T> _canExecute = null;
+        private readonly Action<T> _execute = null;
+        private readonly Predicate<T> _canExecute = null;
         #endregion
 
         #region constructors
@@ -46,7 +46,7 @@ namespace Common.Commands
         ///</returns>
         public bool CanExecute(object parameter)
         {
-            return _canExecute == null || _canExecute((T)parameter);
+            return this._canExecute == null || this._canExecute((T)parameter);
         }
 
         ///<summary>
@@ -64,7 +64,7 @@ namespace Common.Commands
         ///<param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to <see langword="null" />.</param>
         public void Execute(object parameter)
         {
-            _execute((T)parameter);
+            this._execute((T)parameter);
         }
         #endregion
     }
