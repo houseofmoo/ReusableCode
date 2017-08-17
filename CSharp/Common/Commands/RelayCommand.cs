@@ -29,7 +29,7 @@ namespace Common.Commands
         public RelayCommand(Action<T> execute, Predicate<T> canExecute)
         {
             if (execute == null)
-                throw new ArgumentNullException("execute");
+                throw new ArgumentNullException("execute", "execute parameter cannot be null");
 
             this._execute = execute;
             this._canExecute = canExecute;
