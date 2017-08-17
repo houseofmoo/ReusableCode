@@ -58,8 +58,8 @@ namespace Common.Animations
         /// </summary>
         /// <param name="storyboard">The storyboard this function is being called on</param>
         /// <param name="time">The time the animation takes to complete</param>
-        /// <param name="offset"></param>
-        /// <param name="decelerationRatio"></param>
+        /// <param name="offset">Offset of the page, used to animate from location and to location</param>
+        /// <param name="decelerationRatio">Ratio used to slow page to a stop</param>
         public static void AddSlideFromRight(this Storyboard storyboard, float time, double offset, float decelerationRatio = 0.9f)
         {
             // create margin animate from right
@@ -83,8 +83,8 @@ namespace Common.Animations
         /// </summary>
         /// <param name="storyboard">The storyboard this function is being called on</param>
         /// <param name="time">The time the animation takes to complete</param>
-        /// <param name="offset"></param>
-        /// <param name="decelerationRatio"></param>
+        /// <param name="offset">Offset of the page, used to animate from location and to location</param>
+        /// <param name="decelerationRatio">Ratio used to slow page to a stop</param>
         public static void AddSlideToLeft(this Storyboard storyboard, float time, double offset, float decelerationRatio = 0.9f)
         {
             // create margin animate from right

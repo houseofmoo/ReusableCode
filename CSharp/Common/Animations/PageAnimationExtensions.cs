@@ -35,7 +35,7 @@ namespace Common.Animations
         }
 
         /// <summary>
-        /// Slides a page out to the left
+        /// Fades a page out
         /// </summary>
         /// <param name="page">The page this function belongs to</param>
         /// <param name="time">The time the animation takes to complete</param>
@@ -59,7 +59,55 @@ namespace Common.Animations
         }
 
         /// <summary>
-        /// Slides a page in from right
+        /// Slides a page in from the right
+        /// </summary>
+        /// <param name="page">The page this function belongs to</param>
+        /// <param name="time">The time the animation takes to complete</param>
+        /// <returns></returns>
+        public static async Task SlideInFromRight(this Page page, float time)
+        {
+            // create the storyboard
+            var sb = new Storyboard();
+
+            // add sslide from right animation
+            sb.AddSlideFromRight(time, page.WindowWidth);
+
+            // start animating
+            sb.Begin(page);
+
+            // make page visible
+            page.Visibility = Visibility.Visible;
+
+            // wait for animation to complete
+            await Task.Delay((int)(time * 1000));
+        }
+
+        /// <summary>
+        /// Slides a page out to the left
+        /// </summary>
+        /// <param name="page">The page this function belongs to</param>
+        /// <param name="time">The time the animation takes to complete</param>
+        /// <returns></returns>
+        public static async Task SlideOutToLeft(this Page page, float time)
+        {
+            // create the storyboard
+            var sb = new Storyboard();
+
+            // add sslide from right animation
+            sb.AddSlideToLeft(time, page.WindowWidth);
+
+            // start animating
+            sb.Begin(page);
+
+            // make page visible
+            page.Visibility = Visibility.Visible;
+
+            // wait for animation to complete
+            await Task.Delay((int)(time * 1000));
+        }
+
+        /// <summary>
+        /// Slides a page in from right while fading the page in
         /// </summary>
         /// <param name="page">The page this function belongs to</param>
         /// <param name="time">The time the animation takes to complete</param>
@@ -86,7 +134,7 @@ namespace Common.Animations
         }
 
         /// <summary>
-        /// Slides a page out to the left
+        /// Slides a page out to the left while fading the page out
         /// </summary>
         /// <param name="page">The page this function belongs to</param>
         /// <param name="time">The time the animation takes to complete</param>

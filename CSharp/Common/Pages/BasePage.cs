@@ -21,6 +21,9 @@ namespace Common.Pages
         #endregion
 
         #region public properties
+        /// <summary>
+        /// The view model for this page
+        /// </summary>
         public VM ViewModel
         {
             get { return _viewModel; }
@@ -33,12 +36,18 @@ namespace Common.Pages
             }
         }
 
+        /// <summary>
+        /// The pages load animation
+        /// </summary>
         public Common.Animations.PageAnimation PageLoadAnimation
         {
             get { return _pageLoadAnimation; }
             set { _pageLoadAnimation = value; }
         }
 
+        /// <summary>
+        /// The pages unload animation
+        /// </summary>
         public Common.Animations.PageAnimation PageUnloadAnimation
         {
             get { return _pageUnloadAnimation; }
@@ -47,6 +56,9 @@ namespace Common.Pages
         #endregion
 
         #region constructors
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public BasePage()
         {
             // if we're animating, start out hidden
@@ -77,13 +89,19 @@ namespace Common.Pages
         /// <returns></returns>
         private async Task AnimateIn()
         {
+            // if no animation is defined, return
             if (this.PageLoadAnimation == Common.Animations.PageAnimation.None)
                 return;
 
+            // add and play the appropriate animation
             switch (this.PageLoadAnimation)
             {
                 case Animations.PageAnimation.FadeIn:
                     await this.FadeIn(this._animationTime); 
+                    break;
+
+                case Animations.PageAnimation.SlideInFromRight:
+                    await this.SlideInFromRight(this._animationTime);
                     break;
 
                 case Animations.PageAnimation.SlideAndFadeInFromRight:
@@ -101,15 +119,20 @@ namespace Common.Pages
         /// <returns></returns>
         private async Task AnimateOut()
         {
+            // if no animation is defined, return
             if (this.PageUnloadAnimation == Animations.PageAnimation.None)
                 return;
 
+            // add and play the appropriate animation
             switch (this.PageUnloadAnimation)
             {
                 case Animations.PageAnimation.FadeOut:
                     await this.FadeOut(this._animationTime);
                     break;
 
+                case Animations.PageAnimation.SlideOutToLeft:
+                    await this.SlideOutToLeft(this._animationTime);
+                    break;
                 case Animations.PageAnimation.SlideAndFadeOutToLeft:
                     await this.SlideAndFadeOutToLeft(this._animationTime);
                     break;
