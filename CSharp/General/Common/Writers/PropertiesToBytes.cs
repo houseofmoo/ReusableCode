@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace Common.Writers
 {
     /// <summary>
     /// Contains the <see cref="WriteClassPropertiesToBinFile{T}(string, T)"/> 
-    /// method to write a classes properties to a binary file as bytes
+    /// method to write a classes public properties to a binary file as bytes
     /// </summary>
     public static class PropertiesToBytes
     {
         /// <summary>
-        /// Iterates over an objects properties, writing each property as bytes to a specified bin file
+        /// Iterates over an objects public properties, writing each property as bytes to a specified bin file
         /// </summary>
         /// <typeparam name="T">The class type</typeparam>
         /// <param name="filePath">File path to .bin file</param>
@@ -66,6 +67,20 @@ namespace Common.Writers
             { typeof(float), (w, v) => w.Write((float)v) },
             { typeof(double), (w, v) => w.Write((double)v) },
 
+            // array of primitives
+            { typeof(char[]), (w, v) => writeList(w, (v as char[]).ToList()) },
+            { typeof(bool[]), (w, v) => writeList(w, (v as bool[]).ToList()) },
+            { typeof(sbyte[]), (w, v) => writeList(w, (v as sbyte[]).ToList()) },
+            { typeof(byte[]), (w, v) => writeList(w, (v as byte[]).ToList()) },
+            { typeof(short[]), (w, v) => writeList(w, (v as short[]).ToList()) },
+            { typeof(ushort[]), (w, v) => writeList(w, (v as ushort[]).ToList()) },
+            { typeof(int[]), (w, v) => writeList(w, (v as int[]).ToList()) },
+            { typeof(uint[]), (w, v) => writeList(w, (v as uint[]).ToList()) },
+            { typeof(Int64[]), (w, v) => writeList(w, (v as Int64[]).ToList()) },
+            { typeof(UInt64[]), (w, v) => writeList(w, (v as UInt64[]).ToList()) },
+            { typeof(float[]), (w, v) => writeList(w, (v as float[]).ToList()) },
+            { typeof(double[]), (w, v) => writeList(w, (v as double[]).ToList()) },
+
             // lists of primitives
             { typeof(List<char>), (w, v) => writeList(w, v as List<char>) },
             { typeof(List<bool>), (w, v) => writeList(w, v as List<bool>) },
@@ -82,7 +97,7 @@ namespace Common.Writers
         };
 
         /// <summary>
-        /// If the property was a list, write each value in the list
+        /// If the property is a list, write each value in the list
         /// </summary>
         /// <typeparam name="T">Type of list</typeparam>
         /// <param name="w">The <see cref="BinaryWriter"/> that writes the value</param>
