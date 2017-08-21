@@ -66,7 +66,7 @@ namespace Common.Pages
                 this.Visibility = Visibility.Collapsed;
 
             // listen for page loading event
-            this.Loaded += BasePage_Loaded;
+            this.Loaded += BasePage_LoadedAsync;
 
             // load viewmodel
             this.ViewModel = new VM();
@@ -78,9 +78,11 @@ namespace Common.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BasePage_Loaded(object sender, RoutedEventArgs e)
+        private async void BasePage_LoadedAsync(object sender, RoutedEventArgs e)
         {
-            Task.Run(async () => await AnimateInAsync());
+            // careful of attempting to run a task that edits UI elements
+            // it will cause exceptions
+            await AnimateInAsync();
         }
 
         /// <summary>
