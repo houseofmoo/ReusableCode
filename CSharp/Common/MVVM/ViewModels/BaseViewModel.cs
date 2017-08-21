@@ -58,7 +58,7 @@ namespace Common.ViewModels
         /// <param name="updatingFlag">The boolean property flag defining if the command is already running</param>
         /// <param name="action">The action to run if the command is not already running</param>
         /// <returns></returns>
-        protected async Task RunCommand(Expression<Func<bool>> updatingFlag, Func<Task> action)
+        protected async Task RunCommandAsync(Expression<Func<bool>> updatingFlag, Func<Task> action)
         {
             // check if the flag property is true (meaning function is already running)
             if (updatingFlag.GetPropertyValue())
