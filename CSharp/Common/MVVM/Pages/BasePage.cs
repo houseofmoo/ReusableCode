@@ -78,16 +78,16 @@ namespace Common.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void BasePage_Loaded(object sender, RoutedEventArgs e)
+        private void BasePage_Loaded(object sender, RoutedEventArgs e)
         {
-            await AnimateIn();
+            Task.Run(async () => await AnimateInAsync());
         }
 
         /// <summary>
         /// Animates this page into view
         /// </summary>
         /// <returns></returns>
-        private async Task AnimateIn()
+        private async Task AnimateInAsync()
         {
             // if no animation is defined, return
             if (this.PageLoadAnimation == Common.Animations.PageAnimation.None)
@@ -97,7 +97,7 @@ namespace Common.Pages
             switch (this.PageLoadAnimation)
             {
                 case Animations.PageAnimation.FadeIn:
-                    await this.FadeIn(this._animationTime); 
+                    await this.FadeIn(this._animationTime);
                     break;
 
                 case Animations.PageAnimation.SlideInFromRight:
@@ -117,7 +117,7 @@ namespace Common.Pages
         /// Animtes this page out of view
         /// </summary>
         /// <returns></returns>
-        private async Task AnimateOut()
+        private async Task AnimateOutAsync()
         {
             // if no animation is defined, return
             if (this.PageUnloadAnimation == Animations.PageAnimation.None)
