@@ -8,34 +8,16 @@ namespace Common.Pages
     /// <summary>
     /// Base page for inherited page functionality
     /// </summary>
-    /// <typeparam name="VM">The view model for this page</typeparam>
-    public class BasePage<VM> : Page where VM : ViewModels.BaseViewModel, new()
+    public class BasePage : Page
     {
         #region private fields
-        private VM _viewModel;
-
         private PageAnimation _pageLoadAnimation = PageAnimation.FadeIn;
         private PageAnimation _pageUnloadAnimation = PageAnimation.FadeOut;
-
         private float _animationTime = 0.5f;
+        private bool _shouldAnimateOut = false;
         #endregion
 
         #region public properties
-        /// <summary>
-        /// The view model for this page
-        /// </summary>
-        public VM ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                if (_viewModel == value)
-                    return;
-                _viewModel = value;
-                this.DataContext = _viewModel;
-            }
-        }
-
         /// <summary>
         /// The pages load animation
         /// </summary>
@@ -53,6 +35,16 @@ namespace Common.Pages
             get { return _pageUnloadAnimation; }
             set { _pageUnloadAnimation = value; }
         }
+
+        /// <summary>
+        /// Flag to indicate if this page should animate out.
+        /// Useful for when we move page to another frame
+        /// </summary>
+        public bool ShouldAnimateOut
+        {
+            get { return _shouldAnimateOut; }
+            set { _shouldAnimateOut = value; }
+        }
         #endregion
 
         #region constructors
@@ -66,10 +58,7 @@ namespace Common.Pages
                 this.Visibility = Visibility.Collapsed;
 
             // listen for page loading event
-            this.Loaded += BasePage_Loaded;
-
-            // load viewmodel
-            this.ViewModel = new VM();
+            this.Loaded += BasePage_LoadedAsync;
         }
         #endregion
 
@@ -78,16 +67,21 @@ namespace Common.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void BasePage_Loaded(object sender, RoutedEventArgs e)
+        private async void BasePage_LoadedAsync(object sender, RoutedEventArgs e)
         {
-            await AnimateIn();
+            // should we animate out?
+            if (this.ShouldAnimateOut)
+                await AnimateInAsync();
+            // otherwise we animate in
+            else
+                await AnimateInAsync();
         }
 
         /// <summary>
         /// Animates this page into view
         /// </summary>
         /// <returns></returns>
-        private async Task AnimateIn()
+        protected async Task AnimateInAsync()
         {
             // if no animation is defined, return
             if (this.PageLoadAnimation == PageAnimation.None)
@@ -97,7 +91,7 @@ namespace Common.Pages
             switch (this.PageLoadAnimation)
             {
                 case PageAnimation.FadeIn:
-                    await this.FadeIn(this._animationTime); 
+                    await this.FadeIn(this._animationTime);
                     break;
 
                 case PageAnimation.SlideInFromRight:
@@ -117,7 +111,7 @@ namespace Common.Pages
         /// Animtes this page out of view
         /// </summary>
         /// <returns></returns>
-        private async Task AnimateOut()
+        protected async Task AnimateOut()
         {
             // if no animation is defined, return
             if (this.PageUnloadAnimation == PageAnimation.None)
@@ -141,5 +135,45 @@ namespace Common.Pages
                     break;
             }
         }
+    }
+
+
+    /// <summary>
+    /// Base page for inherited page functionality, with view model support
+    /// </summary>
+    /// <typeparam name="VM">The view model for this page</typeparam>
+    public class BasePage<VM> : BasePage where VM : ViewModels.BaseViewModel, new()
+    {
+        #region private fields
+        private VM _viewModel;
+        #endregion
+
+        #region public properties
+        /// <summary>
+        /// The view model for this page
+        /// </summary>
+        public VM ViewModel
+        {
+            get { return _viewModel; }
+            set
+            {
+                if (_viewModel == value)
+                    return;
+                _viewModel = value;
+                this.DataContext = _viewModel;
+            }
+        }
+        #endregion
+
+        #region constructors
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public BasePage() : base()
+        {
+            // load viewmodel
+            this.ViewModel = new VM();
+        }
+        #endregion
     }
 }
