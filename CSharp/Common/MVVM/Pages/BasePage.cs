@@ -71,7 +71,7 @@ namespace Common.Pages
         {
             // should we animate out?
             if (this.ShouldAnimateOut)
-                await AnimateInAsync();
+                await AnimateOutAsync();
             // otherwise we animate in
             else
                 await AnimateInAsync();
@@ -111,7 +111,7 @@ namespace Common.Pages
         /// Animtes this page out of view
         /// </summary>
         /// <returns></returns>
-        protected async Task AnimateOut()
+        protected async Task AnimateOutAsync()
         {
             // if no animation is defined, return
             if (this.PageUnloadAnimation == PageAnimation.None)
