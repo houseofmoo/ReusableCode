@@ -1,5 +1,5 @@
 ﻿
-namespace Common.PipedMessenger
+namespace MessageHandler
 {
 
 
@@ -8,14 +8,10 @@ namespace Common.PipedMessenger
     /// </summary>
     public class PipeMessage
     {
-        // name of the pipe created
-        public const string PipeName = "RoccMessagePipe";
-        public const int TimeOutTime = 10000; // 10 seconds
-
-        public MessageType  MessageType     { get; set; }
-        public string       Message         { get; set; }
-        public int          CurrentProgress { get; set; }
-        public int          TotalOperations { get; set; }
+        public MessageType MessageType { get; set; }
+        public string Message { get; set; }
+        public int CurrentProgress { get; set; }
+        public int TotalOperations { get; set; }
     }
 
     /// <summary>
@@ -27,5 +23,16 @@ namespace Common.PipedMessenger
         Progress,
         End,
         Error,
+    }
+
+    /// <summary>
+    /// Holds constant values used with pipe objects
+    /// </summary>
+    public static class Name
+    {
+        public const string PipeName = "GenericPipeName";
+        public const int TImeOutTime = 10000;   // 10 seconds
+        public const string ServerName = ".";   // this means server is the 
+                                                // machine  this process is running on
     }
 }
